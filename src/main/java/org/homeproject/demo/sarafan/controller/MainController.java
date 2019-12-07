@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class MainController {
 
     private final MessageRepo messageRepo;
+
     @Value("${spring.profiles.active}")
     private String profile;
 
@@ -30,8 +31,10 @@ public class MainController {
 
         HashMap<Object, Object> data = new HashMap<>();
 
-        data.put("profile", user);
-        data.put("messages", messageRepo.findAll());
+        if (user != null) {
+            data.put("profile", user);
+            data.put("messages", messageRepo.findAll());
+        }
 
         model.addAttribute("frontendData", data);
         model.addAttribute("isDevMode", "dev".equals(profile));
