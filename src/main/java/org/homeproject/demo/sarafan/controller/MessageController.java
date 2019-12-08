@@ -66,7 +66,10 @@ public class MessageController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
-        messageRepo.delete(message);
-        wsSender.accept(EventType.REMOVE, message);
+
+        if (message != null) {
+            messageRepo.delete(message);
+            wsSender.accept(EventType.REMOVE, message);
+        }
     }
 }
