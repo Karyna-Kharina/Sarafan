@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("message")
 public class MessageController {
+
     private static String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
     private static String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
 
@@ -70,6 +71,7 @@ public class MessageController {
             @PathVariable("id") Message messageFromDb,
             @RequestBody Message message
     ) throws IOException {
+
         BeanUtils.copyProperties(message, messageFromDb, "id");
         fillMeta(messageFromDb);
         Message updatedMessage = messageRepo.save(messageFromDb);
@@ -86,6 +88,7 @@ public class MessageController {
     }
 
     private void fillMeta(Message message) throws IOException {
+
         String text = message.getText();
         Matcher matcher = URL_REGEX.matcher(text);
 
