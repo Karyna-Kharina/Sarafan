@@ -1,5 +1,7 @@
 package org.homeproject.demo.sarafan.controller;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -48,6 +50,8 @@ public class MainController {
             data.put("profile", user);
             String messages = writer.writeValueAsString(messageRepo.findAll());
             model.addAttribute("messages", messages);
+        } else {
+            model.addAttribute("messages", "[]");
         }
 
         model.addAttribute("frontendData", data);

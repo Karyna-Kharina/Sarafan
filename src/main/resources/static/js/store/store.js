@@ -43,20 +43,22 @@ export default new Vuex.Store({
             const updateIndex = state.messages.findIndex(item => item.id === comment.message.id);
             const message = state.messages[updateIndex];
 
-            state.messages = [
-                // (спред) ... расскладывает список в поток элементов
-                ...state.messages.slice(0, updateIndex),
+            if (!message.comments.find(it => it.id === comment.id)) {
+                state.messages = [
+                    // (спред) ... расскладывает список в поток элементов
+                    ...state.messages.slice(0, updateIndex),
 
-                // { ... } расскладывает в список пар (ключ-значение)
-                {
-                    ...message,
-                    comments: [
-                        ...message.comments,
-                        comment
-                    ]
-                },
-                ...state.messages.slice(updateIndex + 1)
-            ]
+                    // { ... } расскладывает в список пар (ключ-значение)
+                    {
+                        ...message,
+                        comments: [
+                            ...message.comments,
+                            comment
+                        ]
+                    },
+                    ...state.messages.slice(updateIndex + 1)
+                ]
+            }
         }
     },
     actions: {
@@ -86,7 +88,7 @@ export default new Vuex.Store({
         async addCommentAction({commit, state}, comment) {
             const response = await commentApi.add(comment);
             const data = await response.json();
-            commit('addCommentMutation', comment);
+            commit('addCommentMutation', data);
         }
     }
 });
